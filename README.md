@@ -131,8 +131,8 @@ Install via Arduino Library Manager
 4. Verify power supply voltage is exactly 5V
 
 ## Safety Notes
-⚠️ Always connect power supply before uploading code
-⚠️ Never connect/disconnect matrix while powered
-⚠️ Use proper wire gauge for high current
-⚠️ Keep away from water/moisture
-⚠️ Add fuse (5A) on power line for protection
+- ⚠️ Always connect power supply before uploading code
+- ⚠️ Never connect/disconnect matrix while powered
+- ⚠️ Use proper wire gauge for high current
+- ⚠️ Keep away from water/moisture
+- ⚠️ Add fuse (5A) on power line for protection
