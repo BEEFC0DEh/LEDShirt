@@ -24,31 +24,7 @@ void setup() {
   FastLED.addLeds<WS2812, DATA_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setBrightness(15);
   Serial.begin(115200);
-  // cli();
-  // TCCR1A = 0;
-  // TCCR1B = 0;
-  // TCNT1 = 0;
-  // OCR1A = 15624; // = 16MHz / (1024 * 1) - 1
-  // TCCR1B |= (1 << WGM12) | (1 << CS12) | (1 << CS10); // CTC, предделитель 1024
-  // TIMSK1 |= (1 << OCIE1A);
-  // sei();
 }
-
-// void fill_color(const CRGB &color) {
-//   fill_solid(leds, NUM_LEDS, color);
-//   FastLED.show();
-//   delay(3000);
-// }
-
-// void loop() {
-//   fill_color(CRGB::Red);
-//   fill_color(CRGB::Green);
-//   fill_color(CRGB::Blue);
-//   fill_color(CRGB::Yellow);
-//   fill_color(CRGB::Cyan);
-//   fill_color(CRGB::Magenta);
-//   fill_color(CRGB::White);
-// }
 
 ImageAnimation  imageAnim{1};
 RainAnimation   rainAnim{8};
@@ -97,7 +73,7 @@ public:
     nextPhase %= NUM_ANIMS;
     int currentDuration = ANIM_CONFIGS[m_currentPhase].durationSec * FPS;
 
-    const auto updateAnim = [](FrameCounter frameNum, FrameCounter &frameCounter, Animation * anim, CRGB screen[NUM_LEDS])
+    const auto updateAnim = [](FrameCounter frameNum, FrameCounter &frameCounter, Animation *anim, CRGB screen[NUM_LEDS])
     {
       const FrameCounter nextFrame = frameNum * anim->m_fps / (1000.f / MSEC_PER_FRAME);
       if (nextFrame != frameCounter) {
@@ -147,13 +123,8 @@ public:
 
 AnimationScheduler animScheduler{2};
 
-// uint8_t animCycle = 0;
 void loop() {
   animScheduler.prepareNextFrame();
   FastLED.show();
   delay(MSEC_PER_FRAME);
 }
-
-// ISR(TIMER1_COMPA_vect) {
-//   animCycle++;
-// }

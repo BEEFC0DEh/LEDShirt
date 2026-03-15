@@ -83,11 +83,7 @@ private:
   void render(CRGB screen[NUM_LEDS], FrameCounter frameNum) override {
     const FrameCounter currentFrame = frameNum % 150;
     const uint8_t progress = (currentFrame / 15) % WIDTH;
-    // Serial.print(m_currentFrame);
-    // Serial.print(": ");
-    // Serial.println(progress);
     for (uint8_t y = 0; y < HEIGHT; y++) {
-      // Serial.print("[");
       for (uint8_t x = 0; x < WIDTH; x++) {
         const size_t offset = y * WIDTH + x;
         const uint8_t t = progress;
@@ -96,12 +92,7 @@ private:
         } else {
           screen[offset] = (x < WIDTH - t) ? screen1[t + offset] : screen2[offset - (WIDTH - t)];
         }
-        // Serial.print(t);
-        // Serial.print(": ");
-        // Serial.print((x < WIDTH - t) ? offset + 1 : offset - (WIDTH - t));
-        // Serial.print(", ");
       }
-      // Serial.println("]");
     }
   }
 
