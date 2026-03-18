@@ -1,4 +1,8 @@
 using FrameCounter = uint16_t;
+// Преобразование координат (серпантин)
+int XY(uint8_t x, uint8_t y) {
+  return (y % 2 == 0) ? (y * WIDTH + x) : (y * WIDTH + (WIDTH - 1 - x));
+}
 
 class Animation
 {

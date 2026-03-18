@@ -8,11 +8,6 @@
 
 #define MSEC_PER_FRAME 17
 
-// Преобразование координат (зигзаг)
-int XY(uint8_t x, uint8_t y) {
-  return (y % 2 == 0) ? (y * WIDTH + x) : (y * WIDTH + (WIDTH - 1 - x));
-}
-
 #include "anim2.h"
 
 CRGB leds[NUM_LEDS];
