@@ -21,25 +21,19 @@ void setup() {
   Serial.begin(115200);
 }
 
-ImageAnimation  imageAnim{1};
-RainAnimation   rainAnim{8};
-TextAnimation   textAnim{4};
-WaveAnimation   waveAnim{30};
+ImageAnimation  imageAnim{1, 3};
+RainAnimation   rainAnim{8, 3};
+TextAnimation   textAnim{4, 23};
+WaveAnimation   waveAnim{30, 10};
 
-struct AnimConfig {
-  Animation* anim;
-  uint8_t durationSec;
+const Animation* ANIMATIONS[] = {
+  &imageAnim
+  , &textAnim 
+  , &imageAnim
+  , &rainAnim
 };
 
-const AnimConfig ANIM_CONFIGS[] = {
-  { &waveAnim, 10 }
-  // { &imageAnim, 3 }
-  // , { &textAnim, 23 }
-  // , { &imageAnim, 3 }
-  // , { &rainAnim, 3 }
-};
-
-#define NUM_ANIMS sizeof(ANIM_CONFIGS) / sizeof(AnimConfig)
+#define NUM_ANIMS sizeof(ANIMATIONS) / sizeof(Animation*)
 static_assert(NUM_ANIMS <= 16, "Too many animations");
 
 class AnimationScheduler {
@@ -68,9 +62,9 @@ public:
     
     uint8_t nextPhase = m_currentPhase + 1;
     nextPhase %= NUM_ANIMS;
-    int currentDuration = ANIM_CONFIGS[m_currentPhase].durationSec * FPS;
+    int currentDuration = ANIMATIONS[m_currentPhase]->m_duration * FPS;
 
-    const auto updateAnim = [](FrameCounter frameNum, FrameCounter &frameCounter, Animation *anim, CRGB screen[NUM_LEDS])
+    const auto updateAnim = [](FrameCounter frameNum, FrameCounter &frameCounter, const Animation *anim, CRGB screen[NUM_LEDS])
     {
       const FrameCounter nextFrame = frameNum * anim->m_fps / (1000.f / MSEC_PER_FRAME);
       if (nextFrame != frameCounter) {
@@ -81,7 +75,7 @@ public:
     
     switch (m_state) {
       case PLAYING: {
-        updateAnim(m_phaseFrame,  m_currentFrame1, ANIM_CONFIGS[m_currentPhase].anim, leds);
+        updateAnim(m_phaseFrame,  m_currentFrame1, ANIMATIONS[m_currentPhase], leds);
         
         if (m_phaseFrame >= currentDuration - 1) {
           if (m_crossfadeFrames > 0 && NUM_ANIMS > 1) {
@@ -101,8 +95,8 @@ public:
       }
       
       case FADING: {
-        updateAnim(m_phaseFrame + m_fadeFrame,  m_currentFrame1, ANIM_CONFIGS[m_currentPhase].anim, screen1);
-        updateAnim(m_fadeFrame,                 m_currentFrame2, ANIM_CONFIGS[nextPhase].anim, screen2);
+        updateAnim(m_phaseFrame + m_fadeFrame,  m_currentFrame1, ANIMATIONS[m_currentPhase], screen1);
+        updateAnim(m_fadeFrame,                 m_currentFrame2, ANIMATIONS[nextPhase], screen2);
         updateAnim(m_fadeFrame,                 m_currentFrame3, &m_crossfade, leds);
          
         m_fadeFrame++;

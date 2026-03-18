@@ -1,6 +1,8 @@
 #include <math.h>
 
-using FrameCounter = uint16_t;
+using FrameCounter  = uint16_t;
+using Seconds       = uint8_t;
+
 // Преобразование координат (серпантин)
 int XY(uint8_t x, uint8_t y) {
   return (y % 2 == 0) ? (y * WIDTH + x) : (y * WIDTH + (WIDTH - 1 - x));
@@ -11,12 +13,14 @@ class Animation
 protected:
   friend class AnimationScheduler;
   const float m_fps;
+  Seconds m_duration;
 
   virtual void render(CRGB screen[NUM_LEDS], FrameCounter frameNum) = 0;
 
 public:
-  Animation(float fps = 1.0f)
+  Animation(float fps = 1.0f, Seconds duration = 1)
   : m_fps{fps}
+  , m_duration{duration}
   {}
 
   void prepareNextFrame(CRGB screen[NUM_LEDS], FrameCounter frameNum) {
@@ -43,8 +47,8 @@ private:
   }
 
 public:
-  ImageAnimation(float fps = 1.0f)
-  : Animation(fps)
+  ImageAnimation(float fps = 1.0f, Seconds duration = 1)
+  : Animation(fps, duration)
   {}
 };
 
@@ -77,8 +81,8 @@ private:
   }
 
 public:
-  RainAnimation(float fps = 1.0f)
-  : Animation(fps)
+  RainAnimation(float fps = 1.0f, Seconds duration = 1)
+  : Animation(fps, duration)
   {}
 };
 
@@ -103,8 +107,8 @@ private:
   }
 
 public:
-  CrossfadeAnimation(float fps = 1.0f)
-  : Animation(fps)
+  CrossfadeAnimation(float fps = 1.0f, Seconds duration = 2)
+  : Animation(fps, duration)
   {}
 };
 
@@ -414,9 +418,13 @@ private:
   }
 
 public:
-  TextAnimation(float fps = 1.0f)
-  : Animation(fps)
-  {}
+  TextAnimation(float fps = 1.0f, Seconds duration = 0)
+  : Animation(fps, duration)
+  {
+    if (duration == 0) {
+      
+    }
+  }
 };
 
 class WaveAnimation : public Animation
@@ -433,7 +441,7 @@ private:
   }
 
 public:
-  WaveAnimation(float fps = 1.0f)
-  : Animation(fps)
+  WaveAnimation(float fps = 1.0f, Seconds duration = 1)
+  : Animation(fps, duration)
   {}
 };
