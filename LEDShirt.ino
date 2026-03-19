@@ -23,7 +23,7 @@ void setup() {
 
 ImageAnimation  imageAnim{1, 3};
 RainAnimation   rainAnim{8, 3};
-TextAnimation   textAnim{4, 23};
+TextAnimation   textAnim{4};
 WaveAnimation   waveAnim{30, 10};
 
 const Animation* ANIMATIONS[] = {

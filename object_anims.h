@@ -422,7 +422,7 @@ public:
   : Animation(fps, duration)
   {
     if (duration == 0) {
-      
+      m_duration = WIDTH / m_fps * m_stringLen;
     }
   }
 };
