@@ -1,3 +1,5 @@
+#include <math.h>
+
 using FrameCounter = uint16_t;
 // Преобразование координат (серпантин)
 int XY(uint8_t x, uint8_t y) {
@@ -413,6 +415,25 @@ private:
 
 public:
   TextAnimation(float fps = 1.0f)
+  : Animation(fps)
+  {}
+};
+
+class WaveAnimation : public Animation
+{
+private:
+  void render(CRGB screen[NUM_LEDS], FrameCounter frameNum) override {
+    const double period = M_PI * 2 / (WIDTH * 2);
+    for (uint8_t y = 0; y < HEIGHT; y++) {
+      for (uint8_t x = 0; x < WIDTH; x++) {
+        const fl::u8 hue = ( y + sin( ( x + double(frameNum) ) * period ) ) * 32;
+        screen[XY(x, y)].setHue(hue);
+      }
+    }
+  }
+
+public:
+  WaveAnimation(float fps = 1.0f)
   : Animation(fps)
   {}
 };

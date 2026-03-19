@@ -24,6 +24,7 @@ void setup() {
 ImageAnimation  imageAnim{1};
 RainAnimation   rainAnim{8};
 TextAnimation   textAnim{4};
+WaveAnimation   waveAnim{30};
 
 struct AnimConfig {
   Animation* anim;
@@ -31,10 +32,11 @@ struct AnimConfig {
 };
 
 const AnimConfig ANIM_CONFIGS[] = {
-  { &imageAnim, 3 }
-  , { &textAnim, 23 }
-  , { &imageAnim, 3 }
-  , { &rainAnim, 3 }
+  { &waveAnim, 10 }
+  // { &imageAnim, 3 }
+  // , { &textAnim, 23 }
+  // , { &imageAnim, 3 }
+  // , { &rainAnim, 3 }
 };
 
 #define NUM_ANIMS sizeof(ANIM_CONFIGS) / sizeof(AnimConfig)
