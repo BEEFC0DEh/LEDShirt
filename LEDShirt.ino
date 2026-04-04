@@ -81,8 +81,8 @@ public:
           if (m_crossfadeFrames > 0 && NUM_ANIMS > 1) {
             m_state = FADING;
             m_fadeFrame = 0;
-            m_currentFrame2 = std::numeric_limits<FrameCounter>::max();;
-            m_currentFrame3 = std::numeric_limits<FrameCounter>::max();;
+            m_currentFrame2 = std::numeric_limits<FrameCounter>::max();
+            m_currentFrame3 = std::numeric_limits<FrameCounter>::max();
             for (int i = 0; i < NUM_LEDS; i++) screen1[i] = leds[i];
           } else {
             m_currentPhase = nextPhase;
